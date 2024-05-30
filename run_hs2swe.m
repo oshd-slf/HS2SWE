@@ -4,7 +4,7 @@ close all; clear; home;
 
 % Load data
 
-data_wfj = readtable("data_weissfluhjoch.txt");
+data_wfj = readtable("data\data_weissfluhjoch.txt");
 
 % Run HS2SWE
 

@@ -13,7 +13,7 @@ close all; clear; home;
 
 % Load data
 
-data_wfj = readtable("data_weissfluhjoch.txt");
+data_wfj = readtable("data\data_weissfluhjoch.txt");
 
 % Run HS2SWE
 
@@ -33,7 +33,7 @@ title("Simulations for the Weissfluhjoch field site at 2540 m.a.s.l. near Davos,
 
 The example shows that for Weissfluhjoch the simulations matches the biweekly snow water equivalent observations well in most years.
 
-![Simulation results from the HS2SWE model](simulation_results.png)
+![Simulation results from the HS2SWE model](figures/simulation_results.png)
 
 ## Model description
 
