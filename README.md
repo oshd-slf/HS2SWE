@@ -39,6 +39,8 @@ The example demonstrates that for Weissfluhjoch, the simulation closely matches 
 
 The HS2SWE method is based on the concept presented by Martinec and Rango (1991) which describes accumulation, densification and melt of the snowpack layer-by-layer. The only input to the model is the observed daily HS. The HS2SWE model has been in operational use for snow-hydrological forecasting in Switzerland for over a decade. HS2SWE simulation results have been used for assimilation into a temperature-index snow melt model (Magnusson et al., 2014) and for improving spatial snowfall fields (Mott et al., 2023). Unlike empirical regression models relating SWE to HS (e.g., Hill et al., 2019; Jonas et al., 2009), the HS2SWE model provides realistic and continuous SWE estimates.
 
+Below, we first present a hypothetical simulation example to illustrate the main features of the model. This is followed by pseudo-code that outlines HS2WE in more detail.
+
 ### Hypothetical simulation example
 
 HS2SWE operates by simulating the evolution of the snowpack, layer-by-layer, where each layer is defined by its density and thickness. The model forecasts compaction for each layer and adapts the snowpack layering through accumulation, densification, or melting, depending on the difference between the predicted and observed HS. We illustrate the simulation process of the HS2SWE model through a hypothetical four-day  scenario encompassing all relevant model steps. On day 1, we introduce the creation of the initial snow layer. Day 2 showcases subsequent accumulation events. Day 3 demonstrates snow settling and the management of compaction and measurement uncertainties. Finally, on day 4, we depict how the model handles snowmelt. This simulation process is detailed and visualized in the figure below.
@@ -60,6 +62,48 @@ Upon reaching day two, the observed HS exceeds the predicted HS after settling (
 ![Schematic illustrating the HS2SWE model](figures/hs2swe_description.png)
 
 Figure. Schematic illustrating a hypothetical four-day simulation scenario encompassing the creation of an initial snow layer (day 1), subsequent snow accumulation (day 2), snow settling including uncertainty (day 3), and melting (day 4) as simulated by the HS2SWE model.
+
+### Pseudo-code describing the algorithm
+
+The pseudo-code below outlines the algorithm for one time step, that is repeated throughout the simulation period. Throughout the simulation process, the modeled snow depth (HS<sub>mod</sub>) is matched against the measured snow depth (HS<sub>meas</sub>). HS<sub>mod</sub> is obtained by summing the thicknesses of all individual snow layers.
+
+**Step 1** - Update the density of all existing snow layers.
+
+**Step 2** - Update the thickness of all existing snow layers.
+
+**Step 3** - Assimilate measured HS by adding, compacting or melting snow according to the following steps:
+
+**Step 3.0** - IF HS<sub>meas</sub> > 0 and HS<sub>mod</sub> == 0 : assume new snowfall and add an initial snow layer.
+
+**Step 3.1** - ELSEIF HS<sub>meas</sub> > HS<sub>mod</sub> + HS<sub>acc</sub> : assume new snowfall and add an additional layer. HS<sub>acc</sub> is a parameter that describes the observation uncertainty of the HS recording.
+
+**Step 3.2** - ELSEIF HS<sub>meas</sub> == HS<sub>mod</sub> : proceed to the next time step.
+
+**Step 3.3** - ELSEIF HS<sub>meas</sub> > HS<sub>mod</sub> : perform step 3.3.1 and 3.3.2
+
+**Step 3.3.1** - reapply densification with a gradually decreasing densification rate until HS<sub>meas</sub> ≤ HS<sub>mod</sub> or the maximum number of iterations have been reached.
+
+**Step 3.3.2** - if HS<sub>meas</sub> > HS<sub>mod</sub> after step 3.3.1 : proceed to the next time step.
+
+**Step 3.4** - ELSEIF HS<sub>meas</sub> < HS<sub>mod</sub> : perform step 3.4.1 and 3.4.2
+
+**Step 3.4.1** reapply densification with a gradually increasing densification rate until HS<sub>meas</sub> ≥ HS<sub>mod</sub> or until all layers reach their maximum allowed density or the maximum number of iterations have been reached.
+
+**Step 3.4.2** - IF HS<sub>meas</sub> < HS<sub>mod</sub> after step 3.4.1 : start melting the snow from the top.
+
+**Step 4** - Recalculate overburden weight.
+
+To summarize: 
+
+**Step 1 & 2** - predicts the settling of existing snow layers.
+
+**Step 3.0 & 3.1** - depicts the accumulation process of snow.
+
+**Step 3.3.1 & 3.4.1** - handles uncertainties in compaction of the snowpack.
+
+**Step 3.4** - handles the melting of the snowpack.
+
+This pseudo-code provides the full overview of the model, and each step is aligned with the actual code of the model.
 
 ## References
 
