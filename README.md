@@ -2,6 +2,8 @@
 
 Model for converting gap-free snow depth (HS) recordings to snow water equivalent (SWE) without additional inputs such as meteorological data. The model has been developed and tested using daily observations sofar and is currently implemented in the Matlab programming language.
 
+[![DOI](https://zenodo.org/badge/797108512.svg)](https://doi.org/10.5281/zenodo.14809810)
+
 ## Example for running the model
 
 The following example reads snow measurements from the Weissfluhjoch field site, runs the HS2SWE model, and finally displays the results:
