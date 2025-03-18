@@ -8,6 +8,7 @@ Model for converting gap-free snow depth (HS) recordings to snow water equivalen
 
 The following example reads snow measurements from the Weissfluhjoch field site, runs the HS2SWE model, and finally displays the results:
 
+# Matlab
 ```matlab
 % Clear workspace
 
@@ -32,6 +33,18 @@ ylabel("Snow water equilvalent [mm]")
 legend()
 title("Simulations for the Weissfluhjoch field site at 2540 m.a.s.l. near Davos, Switzerland")
 ```
+
+or run_hs2swe.m directly in matlab
+
+# Python
+'''
+#in the python_code subfolder: 
+python get_packages.py #to get the needed packages pandas and matlibplot
+python run_python_HS2SWE.py #to run the model for the Weissfluhjoch field site, figures are saved into figures
+## run_python_HS2SWE.py also contains a setup for a multi-station data set which is commented in default version
+'''
+
+
 
 The example demonstrates that for Weissfluhjoch, the simulation closely matches the biweekly SWE observations in most years. It is important to note that the SWE measurements are taken a few meters away from the HS recordings used to run HS2SWE. This difference in location contributes to the discrepancies between the observed and simulated SWE values. Additionally, a reference simulation is available in the Weissfluhjoch dataset provided in this repository, allowing users to verify that their simulations are consistent with those performed using Matlab 2023b.
 
