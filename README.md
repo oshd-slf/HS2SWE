@@ -37,10 +37,13 @@ title("Simulations for the Weissfluhjoch field site at 2540 m.a.s.l. near Davos,
 or run_hs2swe.m directly in matlab
 
 # Python
-'''
-#in the python_code subfolder: 
+'''python
+#in the python_code subfolder:
+ 
 python get_packages.py #to get the needed packages pandas and matlibplot
+
 python run_python_HS2SWE.py #to run the model for the Weissfluhjoch field site, figures are saved into figures
+
 ## run_python_HS2SWE.py also contains a setup for a multi-station data set which is commented in default version
 '''
 
