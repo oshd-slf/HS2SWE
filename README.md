@@ -1,10 +1,14 @@
 # HS2SWE
 
-Model for converting gap-free snow depth (HS) recordings to snow water equivalent (SWE) without additional inputs such as meteorological data. The model has been developed and tested using daily observations sofar and is currently implemented in the Matlab programming language.
+Model for converting gap-free snow depth (HS) recordings to snow water equivalent (SWE) without additional inputs such as meteorological data. The model has been developed and tested using daily observations sofar and is implemented in the Matlab and Python programming languages.
 
 [![DOI](https://zenodo.org/badge/797108512.svg)](https://doi.org/10.5281/zenodo.14809810)
 
-## Example for running the model
+The model is described in the publication:
+
+Magnusson, J., B. Cluzet., L. Quéno, R. Mott, M. Oberrauch, G. Mazzotti, C. Marty, T. Jonas; 2025; Evaluating methods to estimate the water equivalent of new snow from daily snow depth recordings; Cold Regions Science and Technology, 233; 10.1016/j.coldregions.2025.104435.
+
+## Example for running the model in Matlab
 
 The following example reads snow measurements from the Weissfluhjoch field site, runs the HS2SWE model, and finally displays the results:
 
@@ -32,6 +36,28 @@ ylabel("Snow water equilvalent [mm]")
 legend()
 title("Simulations for the Weissfluhjoch field site at 2540 m.a.s.l. near Davos, Switzerland")
 ```
+
+This code is also stored in the script `run_hs2swe.m`. Tobias Jonas at SLF originally developed this code.
+
+## Example for running the model in Python
+
+An equivalent code is available in Python. To run this code, execute the following commands in the subdirectory `python_code`:
+
+```python
+python -m pip install "pandas"
+python -m pip install "numpy"
+python -m pip install "matplotlib"
+```
+
+or even better, install the required libraries in a virtual environment. For running the model use:
+
+```python
+python run_python_HS2SWE.py
+```
+
+The resulting plots are stored in the subdirectory `figures`. The script `run_python_HS2SWE.py` also contains an example for how to run the model for multiple stations. Tobias Zolles at SLF translated the original Matlab code into Python.
+
+# Results
 
 The example demonstrates that for Weissfluhjoch, the simulation closely matches the biweekly SWE observations in most years. It is important to note that the SWE measurements are taken a few meters away from the HS recordings used to run HS2SWE. This difference in location contributes to the discrepancies between the observed and simulated SWE values. Additionally, a reference simulation is available in the Weissfluhjoch dataset provided in this repository, allowing users to verify that their simulations are consistent with those performed using Matlab 2023b.
 
@@ -107,7 +133,7 @@ To summarize:
 
 This pseudo-code provides the full overview of the model, and each step is aligned with the actual code of the model.
 
-## References
+## Additional references
 
 Hill, D. F., Burakowski, E. A., Crumley, R. L., Keon, J., Hu, J. M., Arendt, A. A., Jones, K. W., & Wolken, G. J. (2019). Converting snow depth to snow water equivalent using climatological variables. Cryosphere, 13(7), 1767-1784. https://doi.org/10.5194/tc-13-1767-2019
 
