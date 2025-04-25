@@ -1,12 +1,18 @@
 # HS2SWE
 
-Model for converting gap-free snow depth (HS) recordings to snow water equivalent (SWE) without additional inputs such as meteorological data. The model has been developed and tested using daily observations sofar and is implemented in the Matlab and Python programming languages.
+Model for converting gap-free snow depth (HS) recordings to snow water equivalent (SWE) without additional inputs such as meteorological data. The model has been developed and tested using daily observations sofar and is implemented in the Matlab, Python and R programming languages.
 
 [![DOI](https://zenodo.org/badge/797108512.svg)](https://doi.org/10.5281/zenodo.14809810)
 
-The model is described in the publication:
+The HS2SWE model is described in the publication:
 
 Magnusson, J., B. Cluzet., L. Quéno, R. Mott, M. Oberrauch, G. Mazzotti, C. Marty, T. Jonas; 2025; Evaluating methods to estimate the water equivalent of new snow from daily snow depth recordings; Cold Regions Science and Technology, 233; 10.1016/j.coldregions.2025.104435.
+
+The Δsnow model is an alternative approach for converting snow depth recordings to snow water equivalent. Both HS2SWE and Δsnow are based on similar principles, yet performance may depend on factors such as climate and region. The Δsnow model is described in the publication:
+
+Winkler, M., H. Schellander, S. Gruber; 2021; Snow water equivalents exclusively from snow depths and their temporal changes: the Δsnow model; Hydrol. Earth Syst. Sci., 25, 1165–1187; 10.5194/hess-25-1165-2021.
+
+and is available as an R-package ([nixmass](https://cran.r-project.org/web/packages/nixmass/index.html)).
 
 ## Example for running the model in Matlab
 
@@ -56,6 +62,24 @@ python run_python_HS2SWE.py
 ```
 
 The resulting plots are stored in the subdirectory `figures`. The script `run_python_HS2SWE.py` also contains an example for how to run the model for multiple stations. Tobias Zolles at SLF translated the original Matlab code into Python.
+
+## Example for running the model in R
+
+To run the model, execute the following commands in the R console from the `HS2SWE` directory:
+
+```R
+source("r_code/hs2swe.R")
+
+data <- read.csv("data/data_weissfluhjoch.txt", header=TRUE, sep=",")
+time <- as.POSIXct(strptime(data$time, format = "%Y-%m-%d %H:%M"))
+
+hs_sim <- hs2swe(data$hs_obs)
+
+plot(time, hs_sim, type="l", col = "red", lwd = 2, xlab = "", ylab="Snow water equivalent [mm]")
+points(time, data$swe_obs)
+```
+
+This provides a basic plot of the results. The function `hs2swe.R` in directory `r_code` can simply be used with single vectors or matrices of snow depth observations as input. The function returns a matrix of simulated snow water equivalent values. Harald Schellander at GeoSphere Austria provided the R code for the HS2SWE model.
 
 # Results
 
